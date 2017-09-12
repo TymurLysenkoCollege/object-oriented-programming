@@ -1,0 +1,21 @@
+# don't track stuff connected with build or Visual Studio
+
+**/Debug/
+**/Debug/**
+
+**/*.obj
+**/*.*log
+**/*.pdb
+**/*.idb
+**/*.pch
+**/*.lastbuildstate
+**/*.ilk
+**/*.exe
+
+
+**/.vs/
+**/.vs/**
+
+**/*.ipch
+**/*.suo
+**/*.db
