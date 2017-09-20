@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <stdexcept>
+#include <functional>
 
 Manager::Manager() noexcept
 {
@@ -35,19 +36,64 @@ inline Person** Manager::begin() const noexcept
 
 inline Person** Manager::end() const noexcept
 {
-  return (people_ + size_ - 1);
+  return (people_ + size_);
 }
 
-void Manager::outputPeople() const
+void Manager::outputPeople(unsigned int sortBy) const
 {
   Manager sortedManager;
 
   for (unsigned int i = 0; i < size_; ++i)
   {
-    sortedManager.storePerson( people_[i] );
+    sortedManager.storePerson(people_[i]);
   }
 
-  std::sort(sortedManager.begin(), sortedManager.end());
+  std::function<bool(const Person*, const Person*)> sortFunction;
+
+  switch (sortBy)
+  {
+    case 1 :
+    {
+      sortFunction = [](const Person* left, const Person* right)
+      {
+        return left->getName() < right->getName();
+      };
+
+      break;
+    }
+
+    case 2 :
+    {
+      sortFunction = [](const Person* left, const Person* right)
+      {
+        return left->getAge() < right->getAge();
+      };
+
+      break;
+    }
+
+    case 3 :
+    {
+      sortFunction = [](const Person* left, const Person* right)
+      {
+        return left->getSpeciality() < right->getSpeciality();
+      };
+
+      break;
+    }
+
+    default:
+    {
+      sortFunction = [](const Person* left, const Person* right)
+      {
+        return *left < *right;
+      };
+
+      break;
+    }
+  }
+
+  std::sort(sortedManager.begin(), sortedManager.end(), sortFunction);
 
   for (unsigned int i = 0; i < size_; ++i)
   {

@@ -1,5 +1,5 @@
 #pragma once
-#include "person.h"
+#include "Person.h"
 
 class Manager
 {
@@ -13,7 +13,7 @@ class Manager
     inline Person** begin() const noexcept;
     inline Person** end()   const noexcept;
 
-    void outputPeople() const;
+    void outputPeople(unsigned int) const;
 
     inline       Person*& operator[] (std::size_t idx);
     inline const Person*& operator[] (const std::size_t idx) const;
