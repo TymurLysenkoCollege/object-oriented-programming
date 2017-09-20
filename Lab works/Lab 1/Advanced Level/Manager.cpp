@@ -48,13 +48,13 @@ void Manager::outputPeople(unsigned int sortBy) const
     sortedManager.storePerson(people_[i]);
   }
 
-  std::function<bool(const Person*, const Person*)> sortFunction;
+  std::function<bool(const Person*, const Person*)> sortPredicate;
 
   switch (sortBy)
   {
     case 1 :
     {
-      sortFunction = [](const Person* left, const Person* right)
+      sortPredicate = [](const Person* left, const Person* right)
       {
         return left->getName() < right->getName();
       };
@@ -64,7 +64,7 @@ void Manager::outputPeople(unsigned int sortBy) const
 
     case 2 :
     {
-      sortFunction = [](const Person* left, const Person* right)
+      sortPredicate = [](const Person* left, const Person* right)
       {
         return left->getAge() < right->getAge();
       };
@@ -74,7 +74,7 @@ void Manager::outputPeople(unsigned int sortBy) const
 
     case 3 :
     {
-      sortFunction = [](const Person* left, const Person* right)
+      sortPredicate = [](const Person* left, const Person* right)
       {
         return left->getSpeciality() < right->getSpeciality();
       };
@@ -84,7 +84,7 @@ void Manager::outputPeople(unsigned int sortBy) const
 
     default:
     {
-      sortFunction = [](const Person* left, const Person* right)
+      sortPredicate = [](const Person* left, const Person* right)
       {
         return *left < *right;
       };
@@ -93,7 +93,7 @@ void Manager::outputPeople(unsigned int sortBy) const
     }
   }
 
-  std::sort(sortedManager.begin(), sortedManager.end(), sortFunction);
+  std::sort(sortedManager.begin(), sortedManager.end(), sortPredicate);
 
   for (unsigned int i = 0; i < size_; ++i)
   {
