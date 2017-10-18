@@ -1,37 +1,86 @@
 #include "stdafx.h"
+#include <stdexcept>
+#include <iostream>
 #include "FracNum.h"
 
-FracNum::FracNum() : numerator_(""), denominator_("")
+FracNum::FracNum() : numerator_(0), denominator_(1) { }
+
+FracNum::FracNum(double numerator, double denominator)
 {
+  setNumerator  (numerator);
+  setDenominator(denominator);
 }
 
-FracNum::FracNum(std::string numerator, std::string denominator) : 
-  numerator_(numerator), denominator_(denominator)
-{
-
-}
-
-void FracNum::setNumerator(std::string numerator)
+void FracNum::setNumerator(const double numerator)
 {
   numerator_ = numerator;
 }
 
-void FracNum::setDenominator(std::string denominator)
+void FracNum::setDenominator(const double denominator)
 {
-  denominator_ = denominator;
+  if (denominator == 0)
+  {
+    throw std::invalid_argument("Denominator can't be 0!\n");
+  }
+  else
+  {
+    denominator_ = denominator;
+  }
 }
 
-std::string FracNum::getNumerator() const noexcept
+const double FracNum::getNumerator() const noexcept
 {
   return numerator_;
 }
 
-std::string FracNum::getDenominator() const noexcept
+const double FracNum::getDenominator() const noexcept
 {
   return denominator_;
 }
 
-FracNum& FracNum::add(const FracNum* left, const FracNum* right) const
+void FracNum::show()
 {
-  return 
+  std::cout << this->numerator_ << "/" << this->denominator_ << " = "
+            << (this->numerator_ / this->greatestCommonDivisor()) << "/"
+            << (this->denominator_ / this->greatestCommonDivisor()) << "\n";
+}
+
+FracNum& FracNum::operator=(const FracNum& fraction)
+{
+  this->numerator_   = fraction.numerator_;
+  this->denominator_ = fraction.denominator_;
+
+  return *this;
+}
+
+const FracNum& FracNum::add(const FracNum* left, const FracNum* right)
+{
+  return FracNum(  (left->getNumerator() * right->getDenominator()) + (right->getNumerator() * left->getDenominator())
+                 , left->getDenominator() * right->getDenominator() );
+}
+
+const FracNum& FracNum::subtract(const FracNum& left, const FracNum& right)
+{
+  return FracNum(  (left.getNumerator() * right.getDenominator()) - (right.getNumerator() * left.getDenominator())
+                 , left.getDenominator() * right.getDenominator() );
+}
+
+double FracNum::greatestCommonDivisor() const
+{
+  double numerator   = numerator_;
+  double denominator = denominator_;
+
+  while (numerator != denominator)
+  {
+    if (numerator > denominator)
+    {
+      numerator -= denominator;
+    }
+    else
+    {
+      denominator -= numerator;
+    }
+  }
+
+  return numerator;
 }

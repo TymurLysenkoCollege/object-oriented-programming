@@ -1,31 +1,38 @@
 #pragma once
-#include <string>
 
 class FracNum
 {
   public:
-    
-    
+        
     FracNum();
-    FracNum(std::string, std::string);
+    FracNum(double, double);
 
 
-    void setNumerator(std::string);
-    void setDenominator(std::string);
+    void setNumerator  (const double);
+    void setDenominator(const double);
 
-    std::string getNumerator() const noexcept;
-    std::string getDenominator() const noexcept;
+    const double getNumerator  () const noexcept;
+    const double getDenominator() const noexcept;
 
 
-    FracNum& add(const FracNum*, const FracNum*) const;
+    void show();
+
+
+    FracNum& operator=(const FracNum&);
 
     
+    static const FracNum& add     (const FracNum*, const FracNum*);
+    static const FracNum& subtract(const FracNum&, const FracNum&);
+    
+
     ~FracNum() = default;
 
 
   private:
 
-    std::string numerator_;
-    std::string denominator_;
-};
+    double numerator_;
+    double denominator_;
 
+
+    double greatestCommonDivisor() const;
+};
