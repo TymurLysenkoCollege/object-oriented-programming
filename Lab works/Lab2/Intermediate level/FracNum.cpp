@@ -38,11 +38,10 @@ const double FracNum::getDenominator() const noexcept
   return denominator_;
 }
 
-void FracNum::show()
+void FracNum::show(FracNum fraction)
 {
-  std::cout << this->numerator_ << "/" << this->denominator_ << " = "
-            << (this->numerator_ / this->greatestCommonDivisor()) << "/"
-            << (this->denominator_ / this->greatestCommonDivisor()) << "\n";
+  std::cout << (fraction.numerator_   / fraction.greatestCommonDivisor()) << "/"
+            << (fraction.denominator_ / fraction.greatestCommonDivisor());
 }
 
 FracNum& FracNum::operator=(const FracNum& fraction)
@@ -53,13 +52,13 @@ FracNum& FracNum::operator=(const FracNum& fraction)
   return *this;
 }
 
-const FracNum& FracNum::add(const FracNum* left, const FracNum* right)
+FracNum& FracNum::add(FracNum* left, FracNum* right)
 {
   return FracNum(  (left->getNumerator() * right->getDenominator()) + (right->getNumerator() * left->getDenominator())
                  , left->getDenominator() * right->getDenominator() );
 }
 
-const FracNum& FracNum::subtract(const FracNum& left, const FracNum& right)
+FracNum& FracNum::subtract(FracNum& left, FracNum& right)
 {
   return FracNum(  (left.getNumerator() * right.getDenominator()) - (right.getNumerator() * left.getDenominator())
                  , left.getDenominator() * right.getDenominator() );
@@ -67,8 +66,8 @@ const FracNum& FracNum::subtract(const FracNum& left, const FracNum& right)
 
 double FracNum::greatestCommonDivisor() const
 {
-  double numerator   = numerator_;
-  double denominator = denominator_;
+  double numerator   = std::abs(numerator_);
+  double denominator = std::abs(denominator_);
 
   while (numerator != denominator)
   {

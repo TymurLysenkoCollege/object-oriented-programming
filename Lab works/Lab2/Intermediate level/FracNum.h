@@ -15,14 +15,14 @@ class FracNum
     const double getDenominator() const noexcept;
 
 
-    void show();
+    static void show(FracNum);
 
 
     FracNum& operator=(const FracNum&);
 
     
-    static const FracNum& add     (const FracNum*, const FracNum*);
-    static const FracNum& subtract(const FracNum&, const FracNum&);
+    static FracNum& add     (FracNum*, FracNum*);
+    static FracNum& subtract(FracNum&, FracNum&);
     
 
     ~FracNum() = default;
@@ -30,8 +30,8 @@ class FracNum
 
   private:
 
-    double numerator_;
-    double denominator_;
+    long long int numerator_;
+    long long int denominator_;
 
 
     double greatestCommonDivisor() const;
