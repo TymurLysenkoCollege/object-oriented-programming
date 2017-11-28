@@ -139,5 +139,5 @@ const int FracNum::ExtractBase() const
 
 const int FracNum::ExtractNumerator() const
 {
-  return std::abs(numerator_ % denominator_);
+  return std::abs(numerator_) % denominator_;
 }
