@@ -2,7 +2,7 @@
 #include <iostream>
 #include "CController.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   setlocale(LC_ALL, "Rus");
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
   cController Chipper;
   long long result = 0;
-  byte ourKey[9] = "\0";
+  byte ourKey[9]   = "\0";
 
   for (int i = 0; i < (KEY_SIZE / 8); i++)
   {

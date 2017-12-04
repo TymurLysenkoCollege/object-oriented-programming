@@ -147,12 +147,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CController.h" />
+    <ClInclude Include="cEncryptor.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CController.cpp" />
+    <ClCompile Include="cEncryptor.cpp" />
     <ClCompile Include="Coursework.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
