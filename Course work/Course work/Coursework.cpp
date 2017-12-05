@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include <iostream>
 #include "CController.h"
 
@@ -8,14 +7,14 @@ int main(int argc, char* argv[])
 
   if (argc == 1)
   {
-    cout << "The program can't be executed without parameters!\n" /*"Программа не может работать без параметров!"*/ << endl;
+    cout << "Программа не может работать без параметров!" << endl;
 
     exit(2);
   }
 
   if (argc < 5)
   {
-    cout << "Too few parameters!\n" /*"Слишком мало параметров при вызове программы!\n"*/;
+    cout << "Слишком мало параметров при вызове программы!\n";
 
     exit(3);
   }
@@ -23,16 +22,16 @@ int main(int argc, char* argv[])
   if ( strcmp(argv[1], "-enc") != 0
     && strcmp(argv[1], "-dec") != 0 )
   {
-    cout << "Wrong command format!" //"Неверный формат команды!"
-            "\nYou can use either enc or dec" /*"\nВ параметре mode могут быть только enc или dec!"*/ << endl;
+    cout << "Неверный формат команды!"
+            "\nYou can use either enc or dec" << endl;
 
     exit(4);
   }
 
   if (strlen(argv[2]) != (KEY_SIZE / 8))
   {
-    cout << "Wrong command format!" //"Неверный формат команды!"
-            "\nKey should contain 8 symbols!" /*"\nРазмер ключа должен быть равным 8!"*/ << endl;
+    cout << "Wrong command format!"
+            "\nKey should contain 8 symbols!" << endl;
 
     exit(5);
   }
@@ -57,10 +56,10 @@ int main(int argc, char* argv[])
 
     case 'd':
     {
-      string srcFile(argv[3]);
-      string trgFile(argv[4]);
+      /*string srcFile(argv[3]);
+      string trgFile(argv[4]);*/
 
-      result = Chipper.decrypt(ourKey, srcFile, trgFile); // , argv[3], argv[4]);
+      result = Chipper.decrypt(ourKey, argv[3], argv[4]);
 
       break;
     }
@@ -70,12 +69,12 @@ int main(int argc, char* argv[])
   {
     case 'e':
     {
-      cout << "The file was successfully encrypted.\n" /*"Файл успешно зашифрован.\n"*/;
+      cout << "Файл успешно зашифрован.\n";
       break;
     }
     case 'd':
     {
-      cout << "The file was successfully decrypted.\n" /*"Файл успешно расшифрован.\n"*/;
+      cout << "Файл успешно расшифрован.\n";
     }
   }
 

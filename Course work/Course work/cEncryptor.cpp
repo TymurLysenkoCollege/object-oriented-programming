@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "cEncryptor.h"
 #include <tuple>
 

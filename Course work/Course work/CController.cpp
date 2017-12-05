@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "CController.h"
 
 int cController::GetByteOfText(byte* buf, ifstream& file)
