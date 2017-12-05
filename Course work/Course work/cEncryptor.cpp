@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cEncryptor.h"
-
+#include <tuple>
 
 const uint S1[4][16] = {
                          {14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7},
@@ -360,7 +360,133 @@ void cEncryptor::F_function(string iner_block, string& out_block, const string k
   }
 }
 
-void cEncryptor::EncryptBlock(byte* block, byte* key, int mode)
+tuple<string, string, string, string> cEncryptor::baseEncryption(const byte* block, const byte* key)
+{
+  string bit_buf    = "\0";
+  string A_side     = "\0";
+  string B_side     = "\0";
+  string symb_bytes = "\0";
+  string str_key    = "\0";
+
+  byte   buff[KEY_SIZE / 8 + 1] = "\0";
+  string bytes(8, 0);
+
+  for (int i = 0; i < 8; ++i)
+  {
+    NumToBit(block[i], bytes);
+    symb_bytes += bytes;
+  }
+
+  for (int i = 0; i < KEY_SIZE / 8; ++i)
+  {
+    NumToBit(key[i], bytes);
+    str_key += bytes;
+  }
+
+  for (int i = 0; i < BLOCK_SIZE; ++i)
+  {
+    bit_buf += symb_bytes[InitTransform(i)];
+  }
+
+  for (int i = 0; i < BLOCK_SIZE / 2; ++i)
+  {
+    A_side += bit_buf[i];
+    B_side += bit_buf[BLOCK_SIZE / 2 + i];
+  }
+
+  return make_tuple(A_side, B_side, str_key, symb_bytes);
+}
+
+
+void cEncryptor::encryptBlock(byte* block, byte* key)
+{
+  auto initValues = baseEncryption(block, key);
+
+  string A_side     = get<0>(initValues);
+  string B_side     = get<1>(initValues);
+  string str_key    = get<2>(initValues);
+  string symb_bytes = get<3>(initValues);
+
+  string A_buff = "\0";
+  string B_buff = "\0";
+  string str_rank_key(ADVANCED_KEY_SIZE, 0);
+
+  for (int rank = 1; rank <= RANK_SIZE; ++rank)
+  {
+    A_buff = A_side;
+    B_buff = B_side;
+
+    GetNewKey(str_key, str_rank_key, rank);
+    A_side = B_side;
+
+    F_function(B_side, B_buff, str_rank_key);
+
+    B_side = XOR(A_buff, B_buff);
+  }
+
+  string result = A_side + B_side;
+
+  for (int i = 0; i < BLOCK_SIZE; i++)
+  {
+    symb_bytes[i] = result[FinalTransform(i)];
+  }
+
+  string fin_buf(8, 0);
+  for (int j = 0; j < 8; j++)
+  {
+    for (int i = 0; i < 8; i++)
+    {
+      fin_buf[i] = symb_bytes[8 * j + i];
+    }
+
+    block[j] = BitToNum(fin_buf);
+  }
+}
+
+void cEncryptor::decryptBlock(byte * block, byte * key)
+{
+  auto initValues = baseEncryption(block, key);
+
+  string A_side = get<0>(initValues);
+  string B_side = get<1>(initValues);
+  string str_key = get<2>(initValues);
+  string symb_bytes = get<3>(initValues);
+
+  string A_buff = "\0";
+  string B_buff = "\0";
+  string str_rank_key(ADVANCED_KEY_SIZE, 0);
+
+  for (int rank = 1; rank <= RANK_SIZE; ++rank)
+  {
+    GetNewKey(str_key, str_rank_key, RANK_SIZE - rank + 1);
+    B_side = A_side;
+
+    F_function(A_side, A_buff, str_rank_key);
+
+    A_side = XOR(A_buff, B_buff);
+  }
+
+  string result = A_side + B_side;
+
+  for (int i = 0; i < BLOCK_SIZE; i++)
+  {
+    symb_bytes[i] = result[FinalTransform(i)];
+  }
+
+  string fin_buf(8, 0);
+  for (int j = 0; j < 8; j++)
+  {
+    for (int i = 0; i < 8; i++)
+    {
+      fin_buf[i] = symb_bytes[8 * j + i];
+    }
+
+    block[j] = BitToNum(fin_buf);
+  }
+}
+
+/*
+void cEncryptor::encryptBlock(byte* block, byte* key, int mode)
 {
   string bit_buf    = "\0";
   string A_side     = "\0";
@@ -416,7 +542,8 @@ void cEncryptor::EncryptBlock(byte* block, byte* key, int mode)
 
       B_side = XOR(A_buff, B_buff);
     }
-    else {
+    else
+    {
       GetNewKey(str_key, str_rank_key, RANK_SIZE - rank + 1);
       B_side = A_side;
 
@@ -443,3 +570,4 @@ void cEncryptor::EncryptBlock(byte* block, byte* key, int mode)
     block[j] = BitToNum(fin_buf);
   }
 }
+*/

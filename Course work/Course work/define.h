@@ -27,16 +27,15 @@ enum eChipperMode
 struct sCryptorHeader
 {
   sCryptorHeader() {}
-  sCryptorHeader(char* cName, eChipperMode eMode, long long files);
+
+  sCryptorHeader(char* cName, eChipperMode eMode, long long files)
+  {
+    strcpy_s(chipperName, cName);
+    mode    = eMode;
+    fileLen = files;
+  }
 
   char chipperName[12];
   eChipperMode mode;
   long long fileLen;
 };
-
-sCryptorHeader::sCryptorHeader(char *cName, eChipperMode eMode, long long files)
-{
-  strcpy_s(chipperName, cName);
-  mode    = eMode;
-  fileLen = files;
-}
