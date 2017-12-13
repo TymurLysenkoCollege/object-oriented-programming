@@ -67,7 +67,7 @@ long long cController::encrypt(  byte key[KEY_SIZE / 8], string src_filename
 
   if (!iSrcFile)
   {
-    throw "Исходного файла не существует!";
+    throw "There is no such source file!";
   }
 
   long long llFileSize = GetFileSize(iSrcFile);
@@ -78,7 +78,7 @@ long long cController::encrypt(  byte key[KEY_SIZE / 8], string src_filename
   {
     iSrcFile.close();
 
-    throw "Невозможно создать файл для записи!";
+    throw "Can't create an output file!";
   }
 
   byte bTextBlock[BLOCK_SIZE / 8 + 1] = "\0";
@@ -107,7 +107,7 @@ long long cController::decrypt(byte key[KEY_SIZE / 8], string src_filename, stri
 
   if (!iSrcFile)
   {
-    throw "Исходного файла не существует!";
+    throw "There is no such source file!";;
   }
 
   sCryptorHeader schHeader;
@@ -118,7 +118,7 @@ long long cController::decrypt(byte key[KEY_SIZE / 8], string src_filename, stri
   {
     iSrcFile.close();
 
-    throw "Невозможно расшифровать криптограмму, использовался другой шифр!";
+    throw "Can't decrypt. ource file uses another encryption algorithm.";
   }
 
   ofstream oDestFile(dst_filename.c_str(), ios::out | ios::binary);
@@ -127,7 +127,7 @@ long long cController::decrypt(byte key[KEY_SIZE / 8], string src_filename, stri
   {
     iSrcFile.close();
 
-    throw "Невозможно создать файл для записи!";
+    throw "Can't create an output file!";
   }
 
   byte bTextBlock[BLOCK_SIZE / 8 + 1] = "\0";

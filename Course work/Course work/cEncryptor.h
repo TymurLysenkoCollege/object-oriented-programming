@@ -7,7 +7,6 @@ class cEncryptor
 {
   public:
 
-    // void encryptBlock(byte* block, byte* key, int mode);
     void encryptBlock(byte* block, byte* key);
     void decryptBlock(byte* block, byte* key);
 

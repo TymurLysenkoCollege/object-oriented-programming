@@ -7,14 +7,14 @@ int main(int argc, char* argv[])
 
   if (argc == 1)
   {
-    cout << "Программа не может работать без параметров!" << endl;
+    cout << "The program can't be called without parameters!" << endl;
 
     exit(2);
   }
 
   if (argc < 5)
   {
-    cout << "Слишком мало параметров при вызове программы!\n";
+    cout << "Too little parameters!\n";
 
     exit(3);
   }
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
   if ( strcmp(argv[1], "-enc") != 0
     && strcmp(argv[1], "-dec") != 0 )
   {
-    cout << "Неверный формат команды!"
+    cout << "Wrong command format!"
             "\nYou can use either enc or dec" << endl;
 
     exit(4);
@@ -69,12 +69,12 @@ int main(int argc, char* argv[])
   {
     case 'e':
     {
-      cout << "Файл успешно зашифрован.\n";
+      cout << "The file was successfully encrypted.\n";
       break;
     }
     case 'd':
     {
-      cout << "Файл успешно расшифрован.\n";
+      cout << "The file was successfully decrypted.\n";
     }
   }
 
