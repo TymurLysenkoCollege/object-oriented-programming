@@ -355,6 +355,8 @@ void cEncryptor::F_function(string iner_block, string& out_block, const string k
 
   for (int i = 0; i < BLOCK_SIZE / 2; i++)
   {
+    char temp = out_block[i]; 
+    char temp1 = str_result[FinalTransfor_f(i)];
     out_block[i] = str_result[FinalTransfor_f(i)];
   }
 }
@@ -446,9 +448,9 @@ void cEncryptor::decryptBlock(byte * block, byte * key)
 {
   auto initValues = baseEncryption(block, key);
 
-  string A_side = get<0>(initValues);
-  string B_side = get<1>(initValues);
-  string str_key = get<2>(initValues);
+  string A_side     = get<0>(initValues);
+  string B_side     = get<1>(initValues);
+  string str_key    = get<2>(initValues);
   string symb_bytes = get<3>(initValues);
 
   string A_buff = "\0";
@@ -457,6 +459,9 @@ void cEncryptor::decryptBlock(byte * block, byte * key)
 
   for (int rank = 1; rank <= RANK_SIZE; ++rank)
   {
+    A_buff = A_side;
+    B_buff = B_side;
+
     GetNewKey(str_key, str_rank_key, RANK_SIZE - rank + 1);
     B_side = A_side;
 
